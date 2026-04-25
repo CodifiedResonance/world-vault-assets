@@ -1330,6 +1330,14 @@ function buildTabBody() {
     body.appendChild(sliderEl("Gravity", "g", 0.1, 4, 0.05, "gravity"));
     body.appendChild(sliderEl("Radiation level", "", 0, 1, 0.01, "radiationLevel"));
   } else if (activeTab === "life" && HAS_LIFE) {
+    if (!IS_HELD) {
+      // Glimpse mode — show the quiet notice, no layers
+      const notice = document.createElement('div');
+      notice.className = 'glimpse-notice';
+      notice.innerHTML = '<strong>— GLIMPSED —</strong>The deep layers are visible to those who hold this veil. What lifts: possibility, pressure, collapse — what a world permits, rewards, and ends.<br><br><a href="/world-vault/lift?veil=' + VEIL + '" style="color:rgba(210,225,250,0.95);text-decoration:none;border-bottom:1px solid rgba(210,225,250,0.4);">Lift this veil →</a>';
+      body.appendChild(notice);
+      return;
+    }
     const T = computeTemperature(state);
     const stellar = stellarState(state.stellarClass, age);
     const lifePresence = computeLifePresence(state, T, stellar);
@@ -1354,6 +1362,13 @@ function buildTabBody() {
       body.appendChild(ptr);
     }
   } else if (activeTab === "intel" && HAS_MIND) {
+    if (!IS_HELD) {
+      const notice = document.createElement('div');
+      notice.className = 'glimpse-notice';
+      notice.innerHTML = '<strong>— GLIMPSED —</strong>Welcome to mind, if conditions permit it. The full arc, from stirring through silence — held for those who hold this veil.<br><br><a href="/world-vault/lift?veil=mind" style="color:rgba(210,225,250,0.95);text-decoration:none;border-bottom:1px solid rgba(210,225,250,0.4);">Lift this veil →</a>';
+      body.appendChild(notice);
+      return;
+    }
     buildIntelligenceTab(body);
   } else if (activeTab === "deep") {
     const note = document.createElement('div');
