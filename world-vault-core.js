@@ -1681,6 +1681,37 @@ libraryToggle.onclick = () => {
   if (libraryOpen) refreshLibrary();
 };
 
+// Timebar — collapsible. On mobile default to collapsed (toggle visible), on desktop default expanded (toggle hidden).
+const timebar = document.getElementById('timebar');
+const timebarToggle = document.getElementById('timebar-toggle');
+let timebarCollapsed = false;
+function isMobile() { return window.innerWidth <= 720; }
+function applyTimebarDefault() {
+  if (isMobile()) {
+    timebarCollapsed = true;
+    timebar.classList.add('collapsed');
+    if (timebarToggle) {
+      timebarToggle.classList.add('visible');
+      timebarToggle.textContent = '◷';
+    }
+  } else {
+    timebarCollapsed = false;
+    timebar.classList.remove('collapsed');
+    if (timebarToggle) {
+      timebarToggle.classList.remove('visible');
+    }
+  }
+}
+applyTimebarDefault();
+window.addEventListener('resize', applyTimebarDefault);
+if (timebarToggle) {
+  timebarToggle.onclick = () => {
+    timebarCollapsed = !timebarCollapsed;
+    timebar.classList.toggle('collapsed', timebarCollapsed);
+    timebarToggle.textContent = timebarCollapsed ? '◷' : '×';
+  };
+}
+
 // Save button — only rendered if held. In glimpse mode, the footer renders a lift link instead.
 const saveBtn = document.getElementById('save-btn');
 if (saveBtn && IS_HELD) {
