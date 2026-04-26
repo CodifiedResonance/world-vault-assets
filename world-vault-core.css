@@ -134,33 +134,7 @@ body[data-show-back="true"] .top-left{ left: 52px; }
   border: 1px solid rgba(180,200,230,0.1);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   padding: 6px; border-radius: 2px;
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.timebar.collapsed {
-  opacity: 0;
-  transform: translateX(-50%) translateY(20px);
-  pointer-events: none;
-}
-.timebar-toggle {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 11;
-  width: 32px; height: 32px;
-  background: rgba(10,14,22,0.65);
-  border: 1px solid rgba(180,200,230,0.12);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  color: rgba(200,210,220,0.7);
-  cursor: pointer; border-radius: 2px;
-  display: none;
-  align-items: center; justify-content: center;
-  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-  font-size: 13px; line-height: 1;
-  transition: all 0.25s ease;
-  opacity: 0.6;
-}
-.timebar-toggle.visible { display: inline-flex; }
-.timebar-toggle:hover { opacity: 1; color: #e0e8f2; border-color: rgba(180,200,230,0.3); }
-
 .time-btn {
   background: transparent; border: none;
   color: rgba(200,210,220,0.7);
@@ -661,19 +635,27 @@ body[data-access="glimpsed"] .select-box{ pointer-events: none; opacity: 0.5; }
   /* Panel and library — drop top constraint, anchor from bottom with proper clearance for collapsed timebar */
   .panel { top: auto; right: 8px; left: 8px; bottom: 96px; width: auto; max-height: 56vh; }
   .panel.collapsed { transform: translateY(calc(100% + 30px)); }
-  .panel-toggle { top: 80px; right: 8px; }
-  .panel-toggle.panel-open { right: 8px; top: 80px; }
+  .panel-toggle { top: 130px; right: 8px; }
+  .panel-toggle.panel-open { right: 8px; top: 130px; }
 
   .library { top: auto; left: 8px; right: 8px; bottom: 96px; width: auto; max-height: 56vh; }
   .library.open { transform: translateX(0); }
-  .library-toggle-wrap { top: 80px; left: 8px; }
+  .library-toggle-wrap { top: 130px; left: 8px; }
   .library-toggle-wrap.library-open { left: 8px; }
 
-  /* Timebar — show toggle on mobile so user can collapse */
-  .timebar { gap: 2px; padding: 4px; bottom: 16px; }
-  .time-btn { font-size: 9px; padding: 5px 7px; }
-  .timebar-toggle.visible { bottom: 16px; }
+  /* Timebar — slim and low so the oracle has clean air above */
+  .timebar {
+    gap: 0px;
+    padding: 3px 4px;
+    bottom: 10px;
+    border-radius: 1px;
+  }
+  .time-btn {
+    font-size: 8px;
+    padding: 4px 6px;
+    letter-spacing: 0.03em;
+  }
 
-  /* Oracle — sit comfortably above the (collapsed) timebar */
-  .oracle { bottom: 76px; }
+  /* Oracle — clear of the slimmer timebar */
+  .oracle { bottom: 56px; }
 }
