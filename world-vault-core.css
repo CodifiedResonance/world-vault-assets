@@ -659,3 +659,11 @@ body[data-access="glimpsed"] .select-box{ pointer-events: none; opacity: 0.5; }
   /* Oracle — clear of the slimmer timebar */
   .oracle { bottom: 56px; }
 }
+
+.time-btn {
+  font-size: 8px;
+  padding: 4px 5px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
