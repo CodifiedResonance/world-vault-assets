@@ -1714,6 +1714,76 @@ function liftCurtain(){
   if (curtain) setTimeout(() => curtain.classList.add('lifting'), 2200);
 }
 
+// ─── Fullscreen + cursor auto-hide ───
+// Press F to enter/exit fullscreen. Esc exits (browser-enforced).
+// Inside fullscreen, the cursor fades after 3 seconds of no movement
+// and returns the moment it's moved again.
+(function setupFullscreenRitual() {
+  const CURSOR_HIDE_DELAY = 3000; // ms
+  let cursorTimer = null;
+
+  function isFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  function showCursor() {
+    document.documentElement.style.cursor = '';
+    if (cursorTimer) clearTimeout(cursorTimer);
+    if (isFullscreen()) {
+      cursorTimer = setTimeout(() => {
+        document.documentElement.style.cursor = 'none';
+      }, CURSOR_HIDE_DELAY);
+    }
+  }
+
+  function clearCursorRitual() {
+    if (cursorTimer) clearTimeout(cursorTimer);
+    cursorTimer = null;
+    document.documentElement.style.cursor = '';
+  }
+
+  function enterFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }
+
+  function exitFullscreen() {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+
+  // F toggles fullscreen.
+  // Ignore the keystroke when a text field is focused (e.g. renaming a world).
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'f' && e.key !== 'F') return;
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    e.preventDefault();
+    if (isFullscreen()) exitFullscreen();
+    else enterFullscreen();
+  });
+
+  // When fullscreen state changes, start or stop the cursor ritual.
+  function onFsChange() {
+    if (isFullscreen()) {
+      showCursor(); // starts the 3s fade timer
+    } else {
+      clearCursorRitual();
+    }
+  }
+  document.addEventListener('fullscreenchange', onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
+
+  // Any pointer movement in fullscreen brings the cursor back and restarts the timer.
+  document.addEventListener('mousemove', () => {
+    if (isFullscreen()) showCursor();
+  });
+  document.addEventListener('pointerdown', () => {
+    if (isFullscreen()) showCursor();
+  });
+})();
+
 // ─── Initialize ───
 buildPresets();
 buildTabs();
